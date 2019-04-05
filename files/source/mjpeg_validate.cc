@@ -17,6 +17,7 @@ namespace libyuv {
 extern "C" {
 #endif
 
+#if 0
 // Helper function to scan for EOI marker (0xff 0xd9).
 static LIBYUV_BOOL ScanEOI(const uint8* sample, size_t sample_size) {
   if (sample_size >= 2) {
@@ -37,12 +38,13 @@ static LIBYUV_BOOL ScanEOI(const uint8* sample, size_t sample_size) {
   // ERROR: Invalid jpeg end code not found. Size sample_size
   return LIBYUV_FALSE;
 }
+#endif
 
 // Helper function to validate the jpeg appears intact.
 LIBYUV_BOOL ValidateJpeg(const uint8* sample, size_t sample_size) {
   // Maximum size that ValidateJpeg will consider valid.
   const size_t kMaxJpegSize = 0x7fffffffull;
-  const size_t kBackSearchSize = 1024;
+  //const size_t kBackSearchSize = 1024;
   if (sample_size < 64 || sample_size > kMaxJpegSize || !sample) {
     // ERROR: Invalid jpeg size: sample_size
     return LIBYUV_FALSE;
@@ -52,6 +54,7 @@ LIBYUV_BOOL ValidateJpeg(const uint8* sample, size_t sample_size) {
     return LIBYUV_FALSE;
   }
 
+#if 0
   // Look for the End Of Image (EOI) marker near the end of the buffer.
   if (sample_size > kBackSearchSize) {
     if (ScanEOI(sample + sample_size - kBackSearchSize, kBackSearchSize)) {
@@ -62,6 +65,8 @@ LIBYUV_BOOL ValidateJpeg(const uint8* sample, size_t sample_size) {
   }
   // Step over SOI marker and scan for EOI.
   return ScanEOI(sample + 2, sample_size - 2);
+#endif
+  return LIBYUV_TRUE;
 }
 
 #ifdef __cplusplus
